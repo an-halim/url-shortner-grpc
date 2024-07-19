@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+option go_package = "github.com/an-halim/url-shortner/proto/url_service/v1;url";
+
+import "google/protobuf/timestamp.proto";
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+package proto.url_service.v1;
+
+option(grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info: {
+    title: "Url Service",
+    version: "v1",
+    description: "Url Service API",
+    contact: {
+      name: "An Halim",
+      email: "anhalimm@gmail.com"
+    }
+  },
+  host: "localhost:8000"
+};
+
+service UrlService {
+  rpc Create(CreateUrlRequest) returns (CreateUrlResponse) {
+    option(google.api.http) = {
+      post: "/shortner"
+      body: "*"
+    };
+  }
+
+  rpc GetByShort(GetUrlRequest) returns (empty) {
+    option(google.api.http) = {
+      get: "/{short}"
+    };
+  }
+}
+
+message CreateUrlRequest {
+  string original = 1;
+}
+
+message CreateUrlResponse {
+  int32 id = 1;
+  string short = 2;
+  string original = 3;
+  google.protobuf.Timestamp created_at = 4;
+}
+
+message GetUrlRequest {
+  string short = 1;
+}
+
+message GetUrlResponse {
+  int32 id = 1;
+  string short = 2;
+  string original = 3;
+  google.protobuf.Timestamp created_at = 4;
+}
+
+message Error {
+  string message = 1;
+}
+
+message empty {}

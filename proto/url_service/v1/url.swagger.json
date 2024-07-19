@@ -1,0 +1,108 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Url Service",
+    "description": "Url Service API",
+    "version": "v1",
+    "contact": {
+      "name": "An Halim",
+      "email": "anhalimm@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "proto.url_service.v1.UrlService"
+    }
+  ],
+  "host": "localhost:8000",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/shortner": {
+      "post": {
+        "operationId": "Create",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/proto.url_service.v1.CreateUrlResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/proto.url_service.v1.CreateUrlRequest"
+            }
+          }
+        ],
+        "tags": [
+          "proto.url_service.v1.UrlService"
+        ]
+      }
+    },
+    "/{short}": {
+      "get": {
+        "operationId": "GetByShort",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/proto.url_service.v1.empty"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "short",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "proto.url_service.v1.UrlService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "proto.url_service.v1.CreateUrlRequest": {
+      "type": "object",
+      "properties": {
+        "original": {
+          "type": "string"
+        }
+      }
+    },
+    "proto.url_service.v1.CreateUrlResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "short": {
+          "type": "string"
+        },
+        "original": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "proto.url_service.v1.empty": {
+      "type": "object"
+    }
+  }
+}

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	"github.com/an-halim/url-shortner-grpc/entity"
@@ -32,9 +33,14 @@ func (s *UrlService) Short(ctx context.Context, shortUrl entity.Url) (entity.Url
 		log.Println("Gagal membuat short id")
 		return entity.Url{}, fmt.Errorf("Gagal membuat short id")
 	}
+
+	cleanShortUrl := strings.Replace(sid.MustGenerate(), "_", "", -1)
+	cleanShortUrl = strings.Replace(cleanShortUrl, "-", "", -1)
+	cleanShortUrl = strings.ToLower(cleanShortUrl)
+
 	urlEntity := entity.Url{
 		Original: shortUrl.Original,
-		ShortUrl: sid.MustGenerate(),
+		ShortUrl: cleanShortUrl,
 	}
 
 	created, err := s.UrlRepository.Short(ctx, urlEntity)
